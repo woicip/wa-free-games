@@ -3,6 +3,7 @@ const client = new Client();
 const qrcode = require('qrcode-terminal');
 const axios = require('axios').default;
 const chalk = require('chalk');
+const apiUrl = process.argv[2];
 
 client.on('qr', qr => {
     console.log(chalk.cyan("Please scan the QR code for getting access ..."));
@@ -21,7 +22,7 @@ client.on('message', async (message) => {
     if(msg === '!freegames'){
         client.sendMessage(message.from, 'Memuat game gratis ...');
 
-        const { data } = await axios.get('http://localhost:3303');
+        const { data } = await axios.get(apiUrl);
         
         data.games.forEach(async (game) => {
             const media = await MessageMedia.fromUrl(game.cover, { unsafeMime: true });
